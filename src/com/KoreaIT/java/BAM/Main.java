@@ -1,5 +1,7 @@
 package com.KoreaIT.java.BAM;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -10,7 +12,13 @@ public class Main {
 
 		Scanner sc = new Scanner(System.in);
 		int lastArticleId = 0;
+		
+		LocalDate date = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
+		
+		
+		
 		List<Article> articles = new ArrayList<>();
 
 		while (true) {
@@ -34,7 +42,7 @@ public class Main {
 				System.out.printf("내용 : ");
 				String body = sc.nextLine();
 
-				Article article = new Article(id, title, body);
+				Article article = new Article(id, title, body, date.format(formatter));
 				articles.add(article);
 
 				System.out.printf("%d번 글이 생성되었습니다\n", id);
@@ -44,11 +52,11 @@ public class Main {
 					System.out.println("게시물이 없습니다");
 					continue;
 				}
-				System.out.println("번호    |   제목");
+				System.out.println("번호       |      제목");
 				for (int i = articles.size() - 1; i >= 0; i--) {
 					Article article = articles.get(i);
 
-					System.out.printf("%d	|	%s\n", article.id, article.title);
+					System.out.printf("%d	 |	 %s\n", article.id, article.title);
 				}
 
 			} else if (cmd.startsWith("article detail ")) {
@@ -73,7 +81,7 @@ public class Main {
 					continue;
 				} else {
 					System.out.printf("번호 : %d\n", foundArticle.id);
-					System.out.printf("날짜 : 2022-12-12 12:12:12\n");
+					System.out.printf("날짜 : %s\n", date.format(formatter));
 					System.out.printf("제목 : %s\n", foundArticle.title);
 					System.out.printf("내용 : %s\n", foundArticle.body);
 				}
@@ -84,24 +92,24 @@ public class Main {
 
 				int id = Integer.parseInt(cmdBits[2]);
 
-				Article foundArticle = null;
-
+				int foundindex = -1; // 배열안에서 음수인 인덱스가 없기때문에
+									 // 구별해줄때 -1로 많이 한다.
+				
 				for (int i = 0; i < articles.size(); i++) {
 					Article article = articles.get(i);
 
 					if (article.id == id) {
-						foundArticle = article;
+						foundindex = i;
 						break;
 					}
 				}
 				
-				if (foundArticle == null) {
+				if (foundindex == -1) {
 					System.out.printf("%d번 게시물은 없습니다\n", id);
 					continue;
 				}
 				
-				
-				articles.remove(id - 1);
+				articles.remove(foundindex);
 				System.out.printf("%d번 게시물을 삭제했습니다.\n",id);
 				
 			}
@@ -121,10 +129,13 @@ class Article {
 	int id;
 	String title;
 	String body;
+	String regDate;
 
-	Article(int id, String title, String body) {
+	public Article(int id, String title, String body, String regDate) {
+		super();
 		this.id = id;
 		this.title = title;
 		this.body = body;
+		this.regDate = regDate;
 	}
 }
