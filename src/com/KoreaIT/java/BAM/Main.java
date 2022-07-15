@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Main {
 	public static void main(String[] args) {
-		System.out.println("==ÇÁ·Î±×·¥ ½ÃÀÛ==");
+		System.out.println("==í”„ë¡œê·¸ë¨ ì‹œì‘==");
 
 		Scanner sc = new Scanner(System.in);
 		int lastArticleId = 0;
@@ -15,10 +15,10 @@ public class Main {
 
 		while (true) {
 
-			System.out.printf("¸í·É¾î ) ");
+			System.out.printf("ëª…ë ¹ì–´ ) ");
 			String cmd = sc.nextLine().trim();
 			if (cmd.length() == 0) {
-				System.out.println("¸í·É¾î¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä");
+				System.out.println("ëª…ë ¹ì–´ë¥¼ ì…ë ¥í•´ì£¼ì„¸ìš”");
 				continue;
 			}
 
@@ -29,22 +29,22 @@ public class Main {
 			if (cmd.equals("article write")) {
 				int id = lastArticleId + 1;
 				lastArticleId = id;
-				System.out.printf("Á¦¸ñ : ");
+				System.out.printf("ì œëª© : ");
 				String title = sc.nextLine();
-				System.out.printf("³»¿ë : ");
+				System.out.printf("ë‚´ìš© : ");
 				String body = sc.nextLine();
 
 				Article article = new Article(id, title, body);
 				articles.add(article);
 
-				System.out.printf("%d¹ø ±ÛÀÌ »ı¼ºµÇ¾ú½À´Ï´Ù\n", id);
+				System.out.printf("%dë²ˆ ê¸€ì´ ìƒì„±ë˜ì—ˆìŠµë‹ˆë‹¤\n", id);
 
 			} else if (cmd.equals("article list")) {
 				if (articles.size() == 0) {
-					System.out.println("°Ô½Ã¹°ÀÌ ¾ø½À´Ï´Ù");
+					System.out.println("ê²Œì‹œë¬¼ì´ ì—†ìŠµë‹ˆë‹¤");
 					continue;
 				}
-				System.out.println("¹øÈ£    |   Á¦¸ñ");
+				System.out.println("ë²ˆí˜¸    |   ì œëª©");
 				for (int i = articles.size() - 1; i >= 0; i--) {
 					Article article = articles.get(i);
 
@@ -69,21 +69,49 @@ public class Main {
 				}
 
 				if (foundArticle == null) {
-					System.out.printf("%d¹ø °Ô½Ã¹°Àº ¾ø¾î\n", id);
+					System.out.printf("%dë²ˆ ê²Œì‹œë¬¼ì€ ì—†ìŠµë‹ˆë‹¤\n", id);
 					continue;
 				} else {
-					System.out.printf("¹øÈ£ : %d\n", foundArticle.id);
-					System.out.printf("³¯Â¥ : 2022-12-12 12:12:12\n");
-					System.out.printf("Á¦¸ñ : %s\n", foundArticle.title);
-					System.out.printf("³»¿ë : %s\n", foundArticle.body);
+					System.out.printf("ë²ˆí˜¸ : %d\n", foundArticle.id);
+					System.out.printf("ë‚ ì§œ : 2022-12-12 12:12:12\n");
+					System.out.printf("ì œëª© : %s\n", foundArticle.title);
+					System.out.printf("ë‚´ìš© : %s\n", foundArticle.body);
 				}
 
-			} else {
-				System.out.println("Á¸ÀçÇÏÁö ¾Ê´Â ¸í·É¾îÀÔ´Ï´Ù");
+			} else if (cmd.startsWith("article delete ")) {
+
+				String[] cmdBits = cmd.split(" ");
+
+				int id = Integer.parseInt(cmdBits[2]);
+
+				Article foundArticle = null;
+
+				for (int i = 0; i < articles.size(); i++) {
+					Article article = articles.get(i);
+
+					if (article.id == id) {
+						foundArticle = article;
+						break;
+					}
+				}
+				
+				if (foundArticle == null) {
+					System.out.printf("%dë²ˆ ê²Œì‹œë¬¼ì€ ì—†ìŠµë‹ˆë‹¤\n", id);
+					continue;
+				}
+				
+				
+				articles.remove(id - 1);
+				System.out.printf("%dë²ˆ ê²Œì‹œë¬¼ì„ ì‚­ì œí–ˆìŠµë‹ˆë‹¤.\n",id);
+				
+			}
+			
+			else {
+				System.out.println("ì¡´ì¬í•˜ì§€ ì•ŠëŠ” ëª…ë ¹ì–´ì…ë‹ˆë‹¤");
 			}
 		}
 
-		System.out.println("==ÇÁ·Î±×·¥ ³¡==");
+		System.out.println("==í”„ë¡œê·¸ë¨ ë==");
 		sc.close();
 	}
 
