@@ -21,16 +21,15 @@ public class Main {
 
 			System.out.printf("명령어 ) ");
 			String cmd = sc.nextLine().trim();
+			
 			if (cmd.length() == 0) {
 				System.out.println("명령어를 입력해주세요");
 				continue;
 			}
-
-			if (cmd.equals("exit")) {
+			else if (cmd.equals("exit")) {
 				break;
 			}
-
-			if (cmd.equals("article write")) {
+			else if (cmd.equals("article write")) {
 				int id = lastArticleId + 1;
 				lastArticleId = id;
 				System.out.printf("제목 : ");
@@ -43,7 +42,7 @@ public class Main {
 				articles.add(article);
 
 				System.out.printf("%d번 글이 생성되었습니다\n", id);
-
+				
 			} else if (cmd.equals("article list")) {
 				if (articles.size() == 0) {
 					System.out.println("게시물이 없습니다");
@@ -109,8 +108,42 @@ public class Main {
 				articles.remove(foundindex);
 				System.out.printf("%d번 게시물을 삭제했습니다.\n",id);
 				
+			} else if (cmd.startsWith("article modify ")) {
+
+				String[] cmdBits = cmd.split(" ");
+
+				int id = Integer.parseInt(cmdBits[2]);
+				
+				int foundindex = -1; // 배열안에서 음수인 인덱스가 없기때문에
+									 // 구별해줄때 -1로 많이 한다.
+				
+				for (int i = 0; i < articles.size(); i++) {
+					Article article = articles.get(i);
+
+					if (article.id == id) {
+						foundindex = i;
+						break;
+					}
+				}
+				
+				if (foundindex == -1) {
+					System.out.printf("%d번 게시물은 없습니다\n", id);
+					continue;
+				} 
+				
+				System.out.printf("제목 %s를 무엇으로 변경하시겠습니까? : ", articles.get(foundindex).title);
+				String title = sc.nextLine();
+				System.out.printf("내용 %s를 무엇으로 변경하시겠습니까? : ", articles.get(foundindex).body);
+				String body = sc.nextLine();
+				
+				Article article = articles.get(foundindex);
+				
+				article.title = title;
+				article.body = body;
+				
+				System.out.printf("%d번 게시물을 수정했습니다.\n",id);
+				
 			}
-			
 			else {
 				System.out.println("존재하지 않는 명령어입니다");
 			}
