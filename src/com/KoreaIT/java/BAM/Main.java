@@ -9,13 +9,20 @@ import java.util.Scanner;
 import com.KoreaIT.java.BAM.utill.Myutill;
 
 public class Main {
+	
+	private static List<Article> articles = new ArrayList<>();
+	
+	static {
+		articles = new ArrayList<>();
+	}
+	
 	public static void main(String[] args) {
 		System.out.println("==프로그램 시작==");
 
 		Scanner sc = new Scanner(System.in);
-		int lastArticleId = 0;
-		List<Article> articles = new ArrayList<>();
 		
+		
+		makeTestData();
 
 		while (true) {
 
@@ -30,15 +37,15 @@ public class Main {
 				break;
 			}
 			else if (cmd.equals("article write")) {
-				int id = lastArticleId + 1;
-				lastArticleId = id;
+				int id = articles.size() + 1;
+				
 				System.out.printf("제목 : ");
 				String title = sc.nextLine();
 				System.out.printf("내용 : ");
 				String body = sc.nextLine();
 				
 				String regDate = Myutill.getDate("yyyy-MM-dd HH:mm:ss");
-				Article article = new Article(id, title, body, regDate);
+				Article article = new Article(id, title, body, regDate, 0);
 				articles.add(article);
 
 				System.out.printf("%d번 글이 생성되었습니다\n", id);
@@ -157,6 +164,17 @@ public class Main {
 		sc.close();
 	}
 
+	private static void makeTestData() {
+		System.out.println("테스트를 위한 게시물 데이터를 생성합니다.");
+		
+		articles.add(new Article(1, "aa", "aa", Myutill.getDate("yyyy-MM-dd HH:mm:ss"), 12));
+		articles.add(new Article(2, "bb", "bb", Myutill.getDate("yyyy-MM-dd HH:mm:ss"), 34));
+		articles.add(new Article(3, "cc", "cc", Myutill.getDate("yyyy-MM-dd HH:mm:ss"), 5));
+		
+	}
+
+	
+	
 }
 
 class Article {
@@ -167,13 +185,26 @@ class Article {
 	int hit;
 	
 	public Article(int id, String title, String body, String regDate) {
+ 		this(id, title, body, regDate, 0);	
+ 		// 생성자 중복을 편하게 하기 위해서 있는 기능
+ 		// 이렇게만 해놓아도 밑에 있는 생성자에 작업을 떠넘겨서 실행된다.
+//		this.id = id;
+//		this.title = title;
+//		this.body = body;
+//		this.regDate = regDate;
+//		this.hit = 0; 
+	}
+	
+	public Article(int id, String title, String body, String regDate, int hit) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.body = body;
 		this.regDate = regDate;
-		this.hit = 0; // 
-	}
+		this.hit = hit;  
+	} // 테스트 데이터들을 위한 생성자 오버로딩!!!!!
+	  // 매개변수를 각각 다르게 받기 위해서 만들어준 것이다!!!
+	
 	
 	public void increaseHit() {
 		hit++;
