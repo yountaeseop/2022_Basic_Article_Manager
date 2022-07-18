@@ -8,14 +8,22 @@ import com.KoreaIT.java.BAM.dto.Article;
 import com.KoreaIT.java.BAM.utill.Myutill;
 
 public class App {
-
+	
 	private static List<Article> articles = new ArrayList<>();
+	
+	public App(List<Article> articles) {
+		this.articles = articles;
+	}
+
+	public App() {
+		// 
+	}
+
 	public void run() {
 		
 			System.out.println("==프로그램 시작==");
 
 			Scanner sc = new Scanner(System.in);
-			
 			
 			makeTestData();
 
@@ -63,22 +71,15 @@ public class App {
 
 					int id = Integer.parseInt(cmdBits[2]);
 
-					Article foundArticle = null;
-
-					for (int i = 0; i < articles.size(); i++) {
-						Article article = articles.get(i);
-
-						if (article.id == id) {
-							foundArticle = article;
-							break;
-						}
-					}
-
-					if (foundArticle == null) {
+					int foundindex = getArticleByIndex(id); // 배열안에서 음수인 인덱스가 없기때문에
+					 // 구별해줄때 -1로 많이 한다.
+					
+					if (foundindex == -1) {
 						System.out.printf("%d번 게시물은 없습니다\n", id);
 						continue;
 					} 
 					
+					Article foundArticle = articles.get(foundindex); 
 					foundArticle.increaseHit();
 					
 					System.out.printf("번호 : %d\n", foundArticle.id);
@@ -94,17 +95,8 @@ public class App {
 
 					int id = Integer.parseInt(cmdBits[2]);
 
-					int foundindex = -1; // 배열안에서 음수인 인덱스가 없기때문에
-										 // 구별해줄때 -1로 많이 한다.
-					
-					for (int i = 0; i < articles.size(); i++) {
-						Article article = articles.get(i);
-
-						if (article.id == id) {
-							foundindex = i;
-							break;
-						}
-					}
+					int foundindex = getArticleByIndex(id); // 배열안에서 음수인 인덱스가 없기때문에
+					 // 구별해줄때 -1로 많이 한다.
 					
 					if (foundindex == -1) {
 						System.out.printf("%d번 게시물은 없습니다\n", id);
@@ -120,17 +112,8 @@ public class App {
 
 					int id = Integer.parseInt(cmdBits[2]);
 					
-					int foundindex = -1; // 배열안에서 음수인 인덱스가 없기때문에
-										 // 구별해줄때 -1로 많이 한다.
-					
-					for (int i = 0; i < articles.size(); i++) {
-						Article article = articles.get(i);
-
-						if (article.id == id) {
-							foundindex = i;
-							break;
-						}
-					}
+					int foundindex = getArticleByIndex(id); // 배열안에서 음수인 인덱스가 없기때문에
+					 // 구별해줄때 -1로 많이 한다.
 					
 					if (foundindex == -1) {
 						System.out.printf("%d번 게시물은 없습니다\n", id);
@@ -158,6 +141,19 @@ public class App {
 			System.out.println("==프로그램 끝==");
 			sc.close();
 		}
+
+		private int getArticleByIndex(int id) {
+			
+			for (int i = 0; i < articles.size(); i++) {
+				Article article = articles.get(i);
+			
+				if (article.id == id) {
+					int foundindex = i;
+					return foundindex;
+				}
+			}
+		return -1;
+	}
 
 		private static void makeTestData() {
 			System.out.println("테스트를 위한 게시물 데이터를 생성합니다.");
