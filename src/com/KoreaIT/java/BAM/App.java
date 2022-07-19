@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.KoreaIT.java.BAM.dto.Article;
+import com.KoreaIT.java.BAM.dto.Member;
 import com.KoreaIT.java.BAM.utill.Myutill;
 
 public class App {
 	
 	private static List<Article> articles = new ArrayList<>();
+	private static List<Member> members = new ArrayList<>();
 	
 	public App(List<Article> articles) {
 		this.articles = articles;
@@ -153,6 +155,33 @@ public class App {
 					article.body = body;
 					
 					System.out.printf("%d번 게시물을 수정했습니다.\n",id);
+					
+				} else if (cmd.equals("member join")) {
+					int id = members.size() + 1;
+					
+					System.out.printf("이름 : ");
+					String memberName = sc.nextLine();
+					System.out.printf("아이디 : ");
+					String memberId = sc.nextLine();
+					System.out.printf("비밀번호 : ");
+					String memberPw = sc.nextLine();
+					
+					while(true) {
+						System.out.printf("비밀번호 확인 : ");
+						String memberPwCheck = sc.nextLine();
+						
+						if (memberPw.equals(memberPwCheck)) {
+							break;
+						} else {
+							System.out.println("비밀번호가 다릅니다!!! 다시 입력해주세요.");
+						}
+					}
+					
+					
+					Member member = new Member(memberId, memberPw, memberName);
+					members.add(member);
+
+					System.out.printf("%s님 환영합니다!!!\n", member.name);
 					
 				}
 				else {
