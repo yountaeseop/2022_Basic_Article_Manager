@@ -53,14 +53,36 @@ public class App {
 
 					System.out.printf("%d번 글이 생성되었습니다\n", id);
 					
-				} else if (cmd.equals("article list")) {
+				} else if (cmd.startsWith("article list")) {
+					
 					if (articles.size() == 0) {
 						System.out.println("게시물이 없습니다");
 						continue;
 					}
-					System.out.printf("번호     |    제목    |      %5s      |  조회\n", "날짜");
-					for (int i = articles.size() - 1; i >= 0; i--) {
-						Article article = articles.get(i);
+					
+					String searchKeyword = cmd.substring("article list".length()).trim();
+					
+					List<Article> forPrintArticles = articles;
+					
+					if(searchKeyword.length() > 0) {
+						forPrintArticles = new ArrayList<>();
+						
+						for (Article article : articles) {
+							if(article.title.contains(searchKeyword)) {
+								forPrintArticles.add(article);
+							}
+						}
+						
+						if(forPrintArticles.size() == 0) {
+							System.out.println("해당 검색어를 포함하는 게시물이 없습니다");
+							continue;
+						}
+						
+					}
+					
+					System.out.printf("번호     |    제목    |      %5s          |   조회\n", "날짜");
+					for (int i = forPrintArticles.size() - 1; i >= 0; i--) {
+						Article article = forPrintArticles.get(i);
 
 						System.out.printf("%7d | %6s   | %5s  |%5d\n", article.id, article.title, article.regDate, article.hit);
 					}
@@ -71,7 +93,7 @@ public class App {
 
 					int id = Integer.parseInt(cmdBits[2]);
 
-					int foundindex = getArticleByIndex(id); // 배열안에서 음수인 인덱스가 없기때문에
+					int foundindex = getArticleIndexByid(id); // 배열안에서 음수인 인덱스가 없기때문에
 					 // 구별해줄때 -1로 많이 한다.
 					
 					if (foundindex == -1) {
@@ -95,7 +117,7 @@ public class App {
 
 					int id = Integer.parseInt(cmdBits[2]);
 
-					int foundindex = getArticleByIndex(id); // 배열안에서 음수인 인덱스가 없기때문에
+					int foundindex = getArticleIndexByid(id); // 배열안에서 음수인 인덱스가 없기때문에
 					 // 구별해줄때 -1로 많이 한다.
 					
 					if (foundindex == -1) {
@@ -112,7 +134,7 @@ public class App {
 
 					int id = Integer.parseInt(cmdBits[2]);
 					
-					int foundindex = getArticleByIndex(id); // 배열안에서 음수인 인덱스가 없기때문에
+					int foundindex = getArticleIndexByid(id); // 배열안에서 음수인 인덱스가 없기때문에
 					 // 구별해줄때 -1로 많이 한다.
 					
 					if (foundindex == -1) {
@@ -142,7 +164,7 @@ public class App {
 			sc.close();
 		}
 
-		private int getArticleByIndex(int id) {
+		private int getArticleIndexByid(int id) {
 			
 			for (int i = 0; i < articles.size(); i++) {
 				Article article = articles.get(i);
