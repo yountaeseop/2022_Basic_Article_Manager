@@ -2,11 +2,10 @@ package com.KoreaIT.java.BAM.dto;
 
 
 // 이런 식의 데이터들을 dto라고 부른다, 또는 vo라고 하기도 함 
-public class Article {
-	public int id;
+public class Article extends Dto{
+	
 	public String title;
 	public String body;
-	public String regDate;
 	public int hit;
 	
 	public Article(int id, String title, String body, String regDate) {

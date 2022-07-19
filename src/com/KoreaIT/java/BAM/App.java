@@ -178,7 +178,7 @@ public class App {
 					}
 					
 					
-					Member member = new Member(memberId, memberPw, memberName);
+					Member member = new Member(id, Myutill.getDate("yyyy-MM-dd HH:mm:ss"), memberId, memberPw, memberName);
 					members.add(member);
 
 					System.out.printf("%s님 환영합니다!!!\n", member.name);
