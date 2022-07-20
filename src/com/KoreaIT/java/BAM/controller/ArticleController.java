@@ -33,7 +33,8 @@ private int getArticleIndexByid(int id) {
 
 	public void doWrite() {
 		
-		int id = articles.size() + 1;
+		int id = articles.get(articles.size()-1).id + 1;
+		//int id = articles.size() + 1; 바뀌기 전에 id계산 코드
 		
 		System.out.printf("제목 : ");
 		String title = sc.nextLine();

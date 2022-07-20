@@ -80,6 +80,10 @@ public class App {
 			articles.add(new Article(2, "bb", "bb", regDate, 34));
 			articles.add(new Article(3, "cc", "cc", regDate, 5));
 			
+			members.add(new Member(1, regDate, "test1", "aa", "test1"));
+			members.add(new Member(2, regDate, "test2", "bb", "test2"));
+			members.add(new Member(3, regDate, "test3", "cc", "test3"));
+			
 		}
 	
 	}
