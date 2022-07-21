@@ -8,7 +8,7 @@ import com.KoreaIT.java.BAM.dto.Article;
 import com.KoreaIT.java.BAM.dto.Member;
 import com.KoreaIT.java.BAM.utill.Myutill;
 
-public class ArticleController {
+public class ArticleController extends Controller {
 	
 	private Scanner sc;
 	private List<Article> articles;
@@ -16,6 +16,12 @@ public class ArticleController {
 	public ArticleController(Scanner sc, List<Article> articles) {
 		this.sc = sc;
 		this.articles = articles;
+	}
+	
+	public void doAction(String cmd) {
+		
+		
+		
 	}
 	
 private int getArticleIndexByid(int id) {

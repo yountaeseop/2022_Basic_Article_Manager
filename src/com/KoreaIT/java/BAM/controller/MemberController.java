@@ -6,7 +6,7 @@ import java.util.Scanner;
 import com.KoreaIT.java.BAM.dto.Member;
 import com.KoreaIT.java.BAM.utill.Myutill;
 
-public class MemberController{
+public class MemberController extends Controller{
 
 	private Scanner sc;
 	private List<Member> members;
@@ -16,7 +16,13 @@ public class MemberController{
 		this.sc = sc;
 		this.members = members;
 	}
-
+	
+	public void doAction(String cmd) {
+		
+		
+		
+	}
+	
 	public void doJoin() {
 		
 		int id = members.size() + 1;
