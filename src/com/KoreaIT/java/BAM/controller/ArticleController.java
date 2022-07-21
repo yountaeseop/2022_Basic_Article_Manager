@@ -15,9 +15,10 @@ public class ArticleController extends Controller {
 	private String cmd;
 	private String actionMethodName;
 	
-	public ArticleController(Scanner sc, List<Article> articles) {
-		this.sc = sc;
-		this.articles = articles;
+	public ArticleController(Scanner sc) {
+		this.sc = sc; 
+		
+		articles = new ArrayList<>();
 	}
 	
 	public void doAction(String cmd, String actionMethodName) {
@@ -40,23 +41,14 @@ public class ArticleController extends Controller {
 			case"delete":
 				doDelete();
 				break;
+			default:
+				System.out.println("존재하지 않는 명령어입니다.");
+				break;
 		}
 	}
 	
-private int getArticleIndexByid(int id) {
-		
-		for (int i = 0; i < articles.size(); i++) {
-			Article article = articles.get(i);
-		
-			if (article.id == id) {
-				int foundindex = i;
-				return foundindex;
-			}
-		}
-	return -1;
-}
 
-	public void doWrite() {
+	private void doWrite() {
 		
 		int id = articles.get(articles.size()-1).id + 1;
 		//int id = articles.size() + 1; 바뀌기 전에 id계산 코드
@@ -74,7 +66,7 @@ private int getArticleIndexByid(int id) {
 		
 	}
 
-	public void showList() {
+	private void showList() {
 		
 		if (articles.size() == 0) {
 			System.out.println("게시물이 없습니다");
@@ -110,7 +102,7 @@ private int getArticleIndexByid(int id) {
 		
 	}
 
-	public void showDetail() {
+	private void showDetail() {
 		
 		String[] cmdBits = cmd.split(" ");
 		
@@ -142,7 +134,7 @@ private int getArticleIndexByid(int id) {
 	
 	
 
-	public void doModify() {
+	private void doModify() {
 		
 		String[] cmdBits = cmd.split(" ");
 		
@@ -175,7 +167,7 @@ private int getArticleIndexByid(int id) {
 		
 	}
 	
-	public void doDelete() {
+	private void doDelete() {
 		
 		String[] cmdBits = cmd.split(" ");
 		
@@ -199,7 +191,32 @@ private int getArticleIndexByid(int id) {
 		
 	}
 	
+	private int getArticleIndexByid(int id) {
+		
+		for (int i = 0; i < articles.size(); i++) {
+			Article article = articles.get(i);
+			
+			if (article.id == id) {
+				int foundindex = i;
+				return foundindex;
+			}
+		}
+		return -1;
+	}
 	
-
+	public void makeTestData() {
+		System.out.println("테스트를 위한 게시물 데이터를 생성합니다.");
+		
+		String regDate = Myutill.getDate("yyyy-MM-dd HH:mm:ss"); 
+		
+		articles.add(new Article(1, "aa", "aa", regDate, 12));
+		articles.add(new Article(2, "bb", "bb", regDate, 34));
+		articles.add(new Article(3, "cc", "cc", regDate, 5));
+		
+//		members.add(new Member(1, regDate, "test1", "aa", "test1"));
+//		members.add(new Member(2, regDate, "test2", "bb", "test2"));
+//		members.add(new Member(3, regDate, "test3", "cc", "test3"));
+		
+	}
 
 }

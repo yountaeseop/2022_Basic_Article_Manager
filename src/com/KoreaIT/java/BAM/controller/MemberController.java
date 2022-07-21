@@ -1,8 +1,10 @@
 package com.KoreaIT.java.BAM.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.KoreaIT.java.BAM.dto.Article;
 import com.KoreaIT.java.BAM.dto.Member;
 import com.KoreaIT.java.BAM.utill.Myutill;
 
@@ -13,9 +15,10 @@ public class MemberController extends Controller{
 	private String cmd;
 	private String actionMethodName;
 	
-	public MemberController(Scanner sc, List<Member> members) {
+	public MemberController(Scanner sc) {
 		this.sc = sc;
-		this.members = members;
+		
+		members = new ArrayList<>();
 	}
 	
 	public void doAction(String cmd, String actionMethodName) {
@@ -29,6 +32,9 @@ public class MemberController extends Controller{
 			case"login":
 				login();
 				break;
+			default:
+				System.out.println("존재하지 않는 명령어입니다.");
+				break;
 			
 		}
 		
@@ -39,7 +45,7 @@ public class MemberController extends Controller{
 		
 	}
 
-	public void doJoin() {
+	private void doJoin() {
 		
 		int id = members.size() + 1;
 		String regDate = Myutill.getDate("yyyy-MM-dd HH:mm:ss");
@@ -107,6 +113,17 @@ public class MemberController extends Controller{
 		}
 		
 		return -1;
+	}
+	
+	public void makeTestData() {
+		System.out.println("테스트를 위한 게시물 데이터를 생성합니다.");
+		
+		String regDate = Myutill.getDate("yyyy-MM-dd HH:mm:ss"); 
+		
+		members.add(new Member(1, regDate, "test1", "aa", "test1"));
+		members.add(new Member(2, regDate, "test2", "bb", "test2"));
+		members.add(new Member(3, regDate, "test3", "cc", "test3"));
+		
 	}
 	
 }

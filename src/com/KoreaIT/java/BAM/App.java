@@ -13,29 +13,21 @@ import com.KoreaIT.java.BAM.utill.Myutill;
 
 public class App {
 	
-	private static List<Article> articles = new ArrayList<>();
-	private static List<Member> members = new ArrayList<>();
-	
-	public App(List<Article> articles) {
-		this.articles = articles;
-	}
-
 	public App() {
-		// main함수 실행을 위한 생성자
+		
 	}
 
 	public void run() {
-			
 		
 			System.out.println("==프로그램 시작==");
 
-			makeTestData();
-			
 			Scanner sc = new Scanner(System.in);
 			
-			ArticleController articleController = new ArticleController(sc, articles);
-			MemberController memberController = new MemberController(sc, members);
+			ArticleController articleController = new ArticleController(sc);
+			MemberController memberController = new MemberController(sc);
 			
+			articleController.makeTestData();
+			memberController.makeTestData();
 			
 
 			while (true) {
@@ -95,23 +87,6 @@ public class App {
 
 			System.out.println("==프로그램 끝==");
 			sc.close();
-		}
-
-		
-
-		private static void makeTestData() {
-			System.out.println("테스트를 위한 게시물 데이터를 생성합니다.");
-			
-			String regDate = Myutill.getDate("yyyy-MM-dd HH:mm:ss"); 
-			
-			articles.add(new Article(1, "aa", "aa", regDate, 12));
-			articles.add(new Article(2, "bb", "bb", regDate, 34));
-			articles.add(new Article(3, "cc", "cc", regDate, 5));
-			
-			members.add(new Member(1, regDate, "test1", "aa", "test1"));
-			members.add(new Member(2, regDate, "test2", "bb", "test2"));
-			members.add(new Member(3, regDate, "test3", "cc", "test3"));
-			
 		}
 	
 	}
