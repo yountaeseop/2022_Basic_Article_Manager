@@ -12,16 +12,35 @@ public class ArticleController extends Controller {
 	
 	private Scanner sc;
 	private List<Article> articles;
+	private String cmd;
+	private String actionMethodName;
 	
 	public ArticleController(Scanner sc, List<Article> articles) {
 		this.sc = sc;
 		this.articles = articles;
 	}
 	
-	public void doAction(String cmd) {
-		
-		
-		
+	public void doAction(String cmd, String actionMethodName) {
+		this.cmd = cmd;
+		this.actionMethodName = actionMethodName; 
+				
+		switch(actionMethodName){
+			case"list":
+				showList();
+				break;
+			case"write":
+				doWrite();
+				break;
+			case"detail":
+				showDetail();
+				break;
+			case"modify":
+				doModify();
+				break;
+			case"delete":
+				doDelete();
+				break;
+		}
 	}
 	
 private int getArticleIndexByid(int id) {
@@ -55,7 +74,7 @@ private int getArticleIndexByid(int id) {
 		
 	}
 
-	public void showList(String cmd) {
+	public void showList() {
 		
 		if (articles.size() == 0) {
 			System.out.println("게시물이 없습니다");
@@ -91,10 +110,15 @@ private int getArticleIndexByid(int id) {
 		
 	}
 
-	public void showDtail(String cmd) {
+	public void showDetail() {
 		
 		String[] cmdBits = cmd.split(" ");
-
+		
+		if(cmdBits.length == 2) {
+			System.out.println("명령어를 확인해주세요");
+			return;
+		}
+		
 		int id = Integer.parseInt(cmdBits[2]);
 
 		int foundindex = getArticleIndexByid(id); // 배열안에서 음수인 인덱스가 없기때문에
@@ -118,10 +142,15 @@ private int getArticleIndexByid(int id) {
 	
 	
 
-	public void doModify(String cmd) {
+	public void doModify() {
 		
 		String[] cmdBits = cmd.split(" ");
-
+		
+		if(cmdBits.length == 2) {
+			System.out.println("명령어를 확인해주세요");
+			return;
+		}
+		
 		int id = Integer.parseInt(cmdBits[2]);
 		
 		int foundindex = getArticleIndexByid(id); // 배열안에서 음수인 인덱스가 없기때문에
@@ -146,9 +175,14 @@ private int getArticleIndexByid(int id) {
 		
 	}
 	
-	public void doDelete(String cmd) {
+	public void doDelete() {
 		
 		String[] cmdBits = cmd.split(" ");
+		
+		if(cmdBits.length == 2) {
+			System.out.println("명령어를 확인해주세요");
+			return;
+		}
 
 		int id = Integer.parseInt(cmdBits[2]);
 

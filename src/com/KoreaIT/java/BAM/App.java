@@ -59,7 +59,7 @@ public class App {
 				}
 				
 				String controllerName = cmdBits[0]; // article
-				//String actionMethodName = cmdBits[1]; // detail
+				String actionMethodName = cmdBits[1]; // detail
 				
 				Controller controller = null;
 				
@@ -72,7 +72,7 @@ public class App {
 					continue;
 				}
 				
-				controller.doAction(cmd);
+				controller.doAction(cmd, actionMethodName);
 				
 //				if (cmd.equals("article write")) {
 //					articleController.doWrite();
