@@ -6,4 +6,6 @@ public abstract class Controller {
 	public abstract void doAction(String cmd, String actionMethodName); 
 	// 추상메서드는 구현부를 가지지 않는다.
 	
+	public abstract void makeTestData();
+	
 }

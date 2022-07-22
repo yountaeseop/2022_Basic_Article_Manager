@@ -14,7 +14,7 @@ public class MemberController extends Controller{
 	private List<Member> members;
 	private String cmd;
 	private String actionMethodName;
-	private Member loginedMember;
+	private Member loginedMember = null;
 	
 	public MemberController(Scanner sc) {
 		this.sc = sc;
@@ -35,6 +35,9 @@ public class MemberController extends Controller{
 				break;
 			case"profile":
 				showProfile();
+				break;
+			case"logout":
+				doLogout();
 				break;	
 			default:
 				System.out.println("존재하지 않는 명령어입니다.");
@@ -44,12 +47,39 @@ public class MemberController extends Controller{
 		
 	}
 	
+	private boolean isLogined() {
+		return loginedMember != null;
+	}
+	
+	private void doLogout() {
+		if(isLogined() == false) {
+			System.out.println("로그인 상태가 아닙니다.");
+			return;
+		}
+		
+		loginedMember = null;
+		System.out.println("로그아웃 되었습니다.");
+		
+	}
+
 	private void showProfile() {
-		// TODO Auto-generated method stub
+		System.out.println("== 현재 로그인 한 회원 정보 ==");
+		if(loginedMember == null) {
+			System.out.println("로그아웃 상태입니다");
+			return;
+		} else {
+			System.out.printf("로그인 아이디 : %s\n", loginedMember.loginId);
+			System.out.printf("이름 : %s\n",loginedMember.name);
+		}
 		
 	}
 
 	private void doLogin() {
+		
+		if(isLogined()) {
+			System.out.println("이미 로그인 상태입니다.");
+			return;
+		}
 		
 		System.out.printf("로그인 아이디 : ");
 		String loginId = sc.nextLine();
@@ -69,6 +99,7 @@ public class MemberController extends Controller{
 		}
 		
 		loginedMember = member;
+		
 		System.out.printf("로그인 성공! %s님 환영합니다.\n", loginedMember.name);
 		
 	}
@@ -156,13 +187,13 @@ public class MemberController extends Controller{
 	}
 	
 	public void makeTestData() {
-		System.out.println("테스트를 위한 게시물 데이터를 생성합니다.");
+		System.out.println("테스트를 위한 회원 데이터를 생성합니다.");
 		
 		String regDate = Myutill.getDate("yyyy-MM-dd HH:mm:ss"); 
 		
-		members.add(new Member(1, regDate, "test1", "aa", "test1"));
-		members.add(new Member(2, regDate, "test2", "bb", "test2"));
-		members.add(new Member(3, regDate, "test3", "cc", "test3"));
+		members.add(new Member(1, regDate, "test1", "aa", "홍길동"));
+		members.add(new Member(2, regDate, "test2", "bb", "김철수"));
+		members.add(new Member(3, regDate, "test3", "cc", "임꺽정"));
 		
 	}
 	
