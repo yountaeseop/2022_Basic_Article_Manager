@@ -14,6 +14,7 @@ public class MemberController extends Controller{
 	private List<Member> members;
 	private String cmd;
 	private String actionMethodName;
+	private Member loginedMember;
 	
 	public MemberController(Scanner sc) {
 		this.sc = sc;
@@ -30,8 +31,11 @@ public class MemberController extends Controller{
 				doJoin();
 				break;
 			case"login":
-				login();
+				doLogin();
 				break;
+			case"profile":
+				showProfile();
+				break;	
 			default:
 				System.out.println("존재하지 않는 명령어입니다.");
 				break;
@@ -40,9 +44,45 @@ public class MemberController extends Controller{
 		
 	}
 	
-	private void login() {
+	private void showProfile() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	private void doLogin() {
+		
+		System.out.printf("로그인 아이디 : ");
+		String loginId = sc.nextLine();
+		System.out.printf("로그인 비밀번호 : ");
+		String loginPw = sc.nextLine();
+		
+		Member member = getMemberByLoginId(loginId);
+		
+		if(member == null) {
+			System.out.println("일치하는 회원이 없습니다.");
+			return;
+		}
+		
+		if(member.loginPw.equals(loginPw) == false) {
+			System.out.println("비밀번호를 다시 입력해주세요");
+			return;
+		}
+		
+		loginedMember = member;
+		System.out.printf("로그인 성공! %s님 환영합니다.\n", loginedMember.name);
+		
+	}
+
+	private Member getMemberByLoginId(String loginId) {
+		
+		for(Member member : members) {
+			if(member.loginId.equals(loginId)) {
+				//System.out.printf("%d님 환영합니다!!!!!\n", member.name);
+				return member;
+			} 
+		}
+		
+		return null;
 	}
 
 	private void doJoin() {
