@@ -5,6 +5,7 @@ public class Member extends Dto{
 	public String loginId;
 	public String loginPw;
 	public String name;
+	public String writer; // 작성자
 	
 	public Member(int id, String regDate, String loginId, String loginPw, String name) {
 		
