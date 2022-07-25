@@ -40,9 +40,17 @@ public class ArticleController extends Controller {
 				showDetail();
 				break;
 			case"modify":
+				if(isLogined() == false) {
+					System.out.println("로그인 후 이용해주세요");
+					break;
+				};
 				doModify();
 				break;
 			case"delete":
+				if(isLogined() == false) {
+					System.out.println("로그인 후 이용해주세요");
+					break;
+				};
 				doDelete();
 				break;
 			default:
@@ -51,6 +59,11 @@ public class ArticleController extends Controller {
 		}
 	}
 	
+
+	private boolean isIdEqualLoginedId(int foundindex) {
+		
+		return articles.get(foundindex).memberId == loginedMember.id;
+	}
 
 	private void doWrite() {
 		
@@ -154,6 +167,11 @@ public class ArticleController extends Controller {
 		int foundindex = getArticleIndexByid(id); // 배열안에서 음수인 인덱스가 없기때문에
 		 // 구별해줄때 -1로 많이 한다.
 		
+		if(isIdEqualLoginedId(foundindex) == false) {
+			System.out.println("작성자가 아니면 접근할 수 없습니다.");
+			return;
+		};
+		
 		if (foundindex == -1) {
 			System.out.printf("%d번 게시물은 없습니다\n", id);
 			return;
@@ -186,6 +204,11 @@ public class ArticleController extends Controller {
 
 		int foundindex = getArticleIndexByid(id); // 배열안에서 음수인 인덱스가 없기때문에
 		 // 구별해줄때 -1로 많이 한다.
+		
+		if(isIdEqualLoginedId(foundindex) == false) {
+			System.out.println("작성자가 아니면 접근할 수 없습니다.");
+			return;
+		};
 		
 		if (foundindex == -1) {
 			System.out.printf("%d번 게시물은 없습니다\n", id);
