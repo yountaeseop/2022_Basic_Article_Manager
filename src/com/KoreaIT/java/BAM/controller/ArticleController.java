@@ -30,27 +30,27 @@ public class ArticleController extends Controller {
 				showList();
 				break;
 			case"write":
-				if(isLogined() == false) {
-					System.out.println("로그인 후 이용해주세요");
-					break;
-				};
+//				if(isLogined() == false) {
+//					System.out.println("로그인 후 이용해주세요");
+//					break;
+//				};
 				doWrite();
 				break;
 			case"detail":
 				showDetail();
 				break;
 			case"modify":
-				if(isLogined() == false) {
-					System.out.println("로그인 후 이용해주세요");
-					break;
-				};
+//				if(isLogined() == false) {
+//					System.out.println("로그인 후 이용해주세요");
+//					break;
+//				};
 				doModify();
 				break;
 			case"delete":
-				if(isLogined() == false) {
-					System.out.println("로그인 후 이용해주세요");
-					break;
-				};
+//				if(isLogined() == false) {
+//					System.out.println("로그인 후 이용해주세요");
+//					break;
+//				};
 				doDelete();
 				break;
 			default:
