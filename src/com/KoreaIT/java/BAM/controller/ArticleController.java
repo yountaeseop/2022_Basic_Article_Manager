@@ -30,6 +30,10 @@ public class ArticleController extends Controller {
 				showList();
 				break;
 			case"write":
+				if(isLogined() == false) {
+					System.out.println("로그인 후 이용해주세요");
+					break;
+				};
 				doWrite();
 				break;
 			case"detail":
@@ -49,6 +53,7 @@ public class ArticleController extends Controller {
 	
 
 	private void doWrite() {
+		
 		
 		int id = articles.get(articles.size()-1).id + 1;
 		//int id = articles.size() + 1; 바뀌기 전에 id계산 코드
