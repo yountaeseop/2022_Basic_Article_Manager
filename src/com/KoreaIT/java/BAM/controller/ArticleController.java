@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.KoreaIT.java.BAM.container.Container;
 import com.KoreaIT.java.BAM.dto.Article;
 import com.KoreaIT.java.BAM.dto.Member;
 import com.KoreaIT.java.BAM.utill.Myutill;
@@ -18,7 +19,7 @@ public class ArticleController extends Controller {
 	public ArticleController(Scanner sc) {
 		this.sc = sc; 
 		
-		articles = new ArrayList<>();
+		articles = Container.articleDao.articles;
 	}
 	
 	public void doAction(String cmd, String actionMethodName) {
@@ -67,9 +68,19 @@ public class ArticleController extends Controller {
 
 	private void doWrite() {
 		
+//		ArrayList<Integer> idExeptionList = new ArrayList<Integer>();
 		
 		int id = articles.get(articles.size()-1).id + 1;
 		//int id = articles.size() + 1; 바뀌기 전에 id계산 코드
+		
+//		idExeptionList.add(id);
+//		
+//		for(int i = 0; i < idExeptionList.size(); i++) {
+//			if(id == idExeptionList.get(i)) {
+//				id++;
+//				break;
+//			}
+//		}
 		
 		System.out.printf("제목 : ");
 		String title = sc.nextLine();
@@ -77,7 +88,7 @@ public class ArticleController extends Controller {
 		String body = sc.nextLine();
 		
 		String regDate = Myutill.getDate("yyyy-MM-dd HH:mm:ss");
-		Article article = new Article(id, loginedMember.id ,title, body, regDate, 0);
+		Article article = new Article(id, loginedMember.id, loginedMember.name, title, body, regDate, 0);
 		articles.add(article);
 
 		System.out.printf("%d번 글이 생성되었습니다\n", id);
@@ -111,11 +122,24 @@ public class ArticleController extends Controller {
 			
 		}
 		
+		
+		
 		System.out.printf("번호     |     작성자     |     제목    |      %5s      |   조회\n", "날짜");
 		for (int i = forPrintArticles.size() - 1; i >= 0; i--) {
 			Article article = forPrintArticles.get(i);
+			
+			String writerName = null;
+			
+			List<Member> members = Container.memberDao.members;
+			
+			for (Member member : members) {
+				if(article.memberId == member.id) {
+					writerName = member.name;
+					break;
+				}
+			}
 
-			System.out.printf("%7d | %6s   |  %5s  | %6s |%5d\n", article.id, article.memberId, article.title, article.regDate, article.hit);
+			System.out.printf("%7d | %6s   | %5s  |  %7s |%5d\n", article.id, writerName, article.title, article.regDate, article.hit);
 		}
 		
 	}
@@ -143,7 +167,7 @@ public class ArticleController extends Controller {
 		foundArticle.increaseHit();
 		
 		System.out.printf("번호 : %d\n", foundArticle.id);
-		System.out.printf("작성자 : %d\n", foundArticle.memberId);
+		System.out.printf("작성자 : %d\n", foundArticle.memberName);
 		System.out.printf("날짜 : %s\n", foundArticle.regDate);
 		System.out.printf("제목 : %s\n", foundArticle.title);
 		System.out.printf("내용 : %s\n", foundArticle.body);
@@ -238,9 +262,9 @@ public class ArticleController extends Controller {
 		
 		String regDate = Myutill.getDate("yyyy-MM-dd HH:mm:ss"); 
 		
-		articles.add(new Article(1, 1, "aa", "aa", regDate, 12));
-		articles.add(new Article(2, 2, "bb", "bb", regDate, 34));
-		articles.add(new Article(3, 3, "cc", "cc", regDate, 5));
+		articles.add(new Article(1, 1, "홍길동", "aa", "aa", regDate, 12));
+		articles.add(new Article(2, 2, "임꺽정","bb", "bb", regDate, 34));
+		articles.add(new Article(3, 3, "곽두팔","cc", "cc", regDate, 5));
 		
 //		members.add(new Member(1, regDate, "test1", "aa", "test1"));
 //		members.add(new Member(2, regDate, "test2", "bb", "test2"));
