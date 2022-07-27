@@ -70,8 +70,8 @@ public class ArticleController extends Controller {
 		
 //		ArrayList<Integer> idExeptionList = new ArrayList<Integer>();
 		
-		int id = articles.get(articles.size()-1).id + 1;
-		//int id = articles.size() + 1; 바뀌기 전에 id계산 코드
+		int id = Container.articleDao.getNewId();
+//      int id = articles.size() + 1; 바뀌기 전에 id계산 코드
 		
 //		idExeptionList.add(id);
 //		
@@ -89,7 +89,7 @@ public class ArticleController extends Controller {
 		
 		String regDate = Myutill.getDate("yyyy-MM-dd HH:mm:ss");
 		Article article = new Article(id, loginedMember.id, loginedMember.name, title, body, regDate, 0);
-		articles.add(article);
+		Container.articleDao.add(article);
 
 		System.out.printf("%d번 글이 생성되었습니다\n", id);
 		
@@ -262,9 +262,9 @@ public class ArticleController extends Controller {
 		
 		String regDate = Myutill.getDate("yyyy-MM-dd HH:mm:ss"); 
 		
-		articles.add(new Article(1, 1, "홍길동", "aa", "aa", regDate, 12));
-		articles.add(new Article(2, 2, "임꺽정","bb", "bb", regDate, 34));
-		articles.add(new Article(3, 3, "곽두팔","cc", "cc", regDate, 5));
+		Container.articleDao.add(new Article(1, 1, "홍길동", "aa", "aa", regDate, 12));
+		Container.articleDao.add(new Article(2, 2, "임꺽정","bb", "bb", regDate, 34));
+		Container.articleDao.add(new Article(3, 3, "곽두팔","cc", "cc", regDate, 5));
 		
 //		members.add(new Member(1, regDate, "test1", "aa", "test1"));
 //		members.add(new Member(2, regDate, "test2", "bb", "test2"));

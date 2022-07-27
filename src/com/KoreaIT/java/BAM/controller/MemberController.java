@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import com.KoreaIT.java.BAM.container.Container;
 import com.KoreaIT.java.BAM.dto.Article;
 import com.KoreaIT.java.BAM.dto.Member;
 import com.KoreaIT.java.BAM.utill.Myutill;
@@ -19,7 +20,10 @@ public class MemberController extends Controller{
 	public MemberController(Scanner sc) {
 		this.sc = sc;
 		
-		members = new ArrayList<>();
+		members = Container.memberDao.members;
+		//members = new ArrayList<>();
+		// 이렇게 했을때, article list를 하면 작성자가 null로 나온다
+		// 왜 이런걸까?
 	}
 	
 	public void doAction(String cmd, String actionMethodName) {
@@ -118,7 +122,7 @@ public class MemberController extends Controller{
 
 	private void doJoin() {
 		
-		int id = members.size() + 1;
+		int id = Container.memberDao.getNewId();
 		String regDate = Myutill.getDate("yyyy-MM-dd HH:mm:ss");
 		System.out.printf("이름 : ");
 		String memberName = sc.nextLine();
@@ -155,7 +159,7 @@ public class MemberController extends Controller{
 		
 		
 		Member member = new Member(id, regDate, memberId, memberPw, memberName);
-		members.add(member);
+		Container.memberDao.add(member);
 
 		System.out.printf("%s님 환영합니다!!!\n", member.name);
 		
@@ -191,9 +195,9 @@ public class MemberController extends Controller{
 		
 		String regDate = Myutill.getDate("yyyy-MM-dd HH:mm:ss"); 
 		
-		members.add(new Member(1, regDate, "test1", "aa", "홍길동"));
-		members.add(new Member(2, regDate, "test2", "bb", "김철수"));
-		members.add(new Member(3, regDate, "test3", "cc", "임꺽정"));
+		Container.memberDao.add(new Member(1, regDate, "test1", "aa", "홍길동"));
+		Container.memberDao.add(new Member(2, regDate, "test2", "bb", "김철수"));
+		Container.memberDao.add(new Member(3, regDate, "test3", "cc", "임꺽정"));
 		
 	}
 	
