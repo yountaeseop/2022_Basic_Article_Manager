@@ -7,7 +7,9 @@ public abstract class Dao {
 	//CRUD를 실행하는 메서드는 JDBC등을 이용하여 데이터 베이스에 접근해서 쿼리를 실행한다.
 
 	protected int lastId;
-	
+	// 캡슐화의 개념 외부에서 이 변수에 접근하지 못하도록.
+	// 부모, 자식끼리만 알 수 있도록
+ 	
 	Dao(){
 		lastId = 0;
 	}
@@ -16,7 +18,7 @@ public abstract class Dao {
 		return lastId;
 	}
 	
-	public int getNewId() {
+	public int setNewId() {
 		return lastId + 1;
 	}
 	

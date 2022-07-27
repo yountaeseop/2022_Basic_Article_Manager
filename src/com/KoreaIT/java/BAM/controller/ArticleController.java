@@ -68,20 +68,7 @@ public class ArticleController extends Controller {
 
 	private void doWrite() {
 		
-//		ArrayList<Integer> idExeptionList = new ArrayList<Integer>();
-		
-		int id = Container.articleDao.getNewId();
-//      int id = articles.size() + 1; 바뀌기 전에 id계산 코드
-		
-//		idExeptionList.add(id);
-//		
-//		for(int i = 0; i < idExeptionList.size(); i++) {
-//			if(id == idExeptionList.get(i)) {
-//				id++;
-//				break;
-//			}
-//		}
-		
+		int id = Container.articleDao.setNewId();
 		System.out.printf("제목 : ");
 		String title = sc.nextLine();
 		System.out.printf("내용 : ");
@@ -89,8 +76,9 @@ public class ArticleController extends Controller {
 		
 		String regDate = Myutill.getDate("yyyy-MM-dd HH:mm:ss");
 		Article article = new Article(id, loginedMember.id, loginedMember.name, title, body, regDate, 0);
-		Container.articleDao.add(article);
-
+		Container.articleDao.add(article);  
+		//add는 Controller의 일이 아니고 Dao의 일이기 때문에 Dao를 불러온 것임.
+		
 		System.out.printf("%d번 글이 생성되었습니다\n", id);
 		
 	}
@@ -161,13 +149,24 @@ public class ArticleController extends Controller {
 		if (foundindex == -1) {
 			System.out.printf("%d번 게시물은 없습니다\n", id);
 			return;
-		} 
+		}
 		
+		String writerName = null;
+		
+		List<Member> members = Container.memberDao.members;
 		Article foundArticle = articles.get(foundindex); 
+		
+		for (Member member : members) {
+			if(foundArticle.memberId == member.id) {
+				writerName = member.name;
+				break;
+			}
+		}
+		
 		foundArticle.increaseHit();
 		
 		System.out.printf("번호 : %d\n", foundArticle.id);
-		System.out.printf("작성자 : %d\n", foundArticle.memberName);
+		System.out.printf("작성자 : %s\n", writerName);
 		System.out.printf("날짜 : %s\n", foundArticle.regDate);
 		System.out.printf("제목 : %s\n", foundArticle.title);
 		System.out.printf("내용 : %s\n", foundArticle.body);

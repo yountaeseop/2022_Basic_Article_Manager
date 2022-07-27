@@ -81,31 +81,46 @@ public class MemberController extends Controller{
 
 	private void doLogin() {
 		
-//		if(isLogined()) {
-//			System.out.println("이미 로그인 상태입니다.");
-//			return;
-//		}
-		
-		System.out.printf("로그인 아이디 : ");
-		String loginId = sc.nextLine();
-		System.out.printf("로그인 비밀번호 : ");
-		String loginPw = sc.nextLine();
-		
-		Member member = getMemberByLoginId(loginId);
-		
-		if(member == null) {
-			System.out.println("일치하는 회원이 없습니다.");
-			return;
+		Member member = null;
+		String loginPw = null;
+		while (true) {
+			
+			System.out.printf("로그인 아이디 : ");
+			String loginId = sc.nextLine();
+			
+			if (loginId.trim().length() == 0) {
+				System.out.println("로그인 아이디를 입력해주세요");
+				continue;
+			}
+			
+			while(true) {
+				
+				System.out.printf("로그인 비밀번호 : ");
+				loginPw = sc.nextLine();
+				
+				if (loginPw.length() == 0) {
+					System.out.println("로그인 비밀번호를 입력해주세요");
+					continue;
+				}
+				break;
+			}
+			
+			member = getMemberByLoginId(loginId);
+			
+			if(member == null) {
+				System.out.println("일치하는 회원이 없습니다.");
+				return;
+			}
+			
+			if(member.loginPw.equals(loginPw) == false) {
+				System.out.println("비밀번호가 일치하지 않습니다");
+				return;
+			}
+			
+			break;
 		}
-		
-		if(member.loginPw.equals(loginPw) == false) {
-			System.out.println("비밀번호를 다시 입력해주세요");
-			return;
-		}
-		
-		loginedMember = member;
-		System.out.printf("로그인 성공! %s님 환영합니다.\n", loginedMember.name);
-		
+			loginedMember = member;
+			System.out.printf("로그인 성공! %s님 환영합니다.\n", loginedMember.name);
 	}
 
 	private Member getMemberByLoginId(String loginId) {
@@ -122,7 +137,9 @@ public class MemberController extends Controller{
 
 	private void doJoin() {
 		
-		int id = Container.memberDao.getNewId();
+		int id = Container.memberDao.setNewId();
+		// 아이디를 정하는 것이 컨트롤러의 역할이 아니기 때문에 Dao에서 가져오는 것임
+		
 		String regDate = Myutill.getDate("yyyy-MM-dd HH:mm:ss");
 		System.out.printf("이름 : ");
 		String memberName = sc.nextLine();
@@ -195,10 +212,11 @@ public class MemberController extends Controller{
 		
 		String regDate = Myutill.getDate("yyyy-MM-dd HH:mm:ss"); 
 		
-		Container.memberDao.add(new Member(1, regDate, "test1", "aa", "홍길동"));
-		Container.memberDao.add(new Member(2, regDate, "test2", "bb", "김철수"));
-		Container.memberDao.add(new Member(3, regDate, "test3", "cc", "임꺽정"));
+		Container.memberDao.add(new Member(Container.memberDao.setNewId(), regDate, "test1", "aa", "홍길동"));
+		Container.memberDao.add(new Member(Container.memberDao.setNewId(), regDate, "test2", "bb", "김철수"));
+		Container.memberDao.add(new Member(Container.memberDao.setNewId(), regDate, "test3", "cc", "임꺽정"));
 		
+		//여기도 add기능이기 때문에 Dao로 넘겨서 처리해줘야한다!!!
 	}
 	
 }
