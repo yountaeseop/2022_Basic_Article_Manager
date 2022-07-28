@@ -62,14 +62,11 @@ public class ArticleController extends Controller {
 	}
 	
 
-	private boolean isIdEqualLoginedId(int foundindex) {
-		
-		return articles.get(foundindex).memberId == loginedMember.id;
-	}
+	
 
 	private void doWrite() {
 		
-		int id = Container.articleDao.setNewId();
+		int id = articleService.setNewId();
 		System.out.printf("제목 : ");
 		String title = sc.nextLine();
 		System.out.printf("내용 : ");
@@ -77,7 +74,7 @@ public class ArticleController extends Controller {
 		
 		String regDate = Myutill.getDate("yyyy-MM-dd HH:mm:ss");
 		Article article = new Article(id, loginedMember.id, loginedMember.name, title, body, regDate, 0);
-		Container.articleDao.add(article);  
+		articleService.add(article);  
 		//add는 Controller의 일이 아니고 Dao의 일이기 때문에 Dao를 불러온 것임.
 		
 		System.out.printf("%d번 글이 생성되었습니다\n", id);
@@ -126,7 +123,7 @@ public class ArticleController extends Controller {
 		
 		int id = Integer.parseInt(cmdBits[2]);
 
-		int foundindex = getArticleIndexByid(id); // 배열안에서 음수인 인덱스가 없기때문에
+		int foundindex = articleService.getArticleIndexByid(id); // 배열안에서 음수인 인덱스가 없기때문에
 		 // 구별해줄때 -1로 많이 한다.
 		
 		if (foundindex == -1) {
@@ -170,10 +167,10 @@ public class ArticleController extends Controller {
 		
 		int id = Integer.parseInt(cmdBits[2]);
 		
-		int foundindex = getArticleIndexByid(id); // 배열안에서 음수인 인덱스가 없기때문에
+		int foundindex = articleService.getArticleIndexByid(id); // 배열안에서 음수인 인덱스가 없기때문에
 		 // 구별해줄때 -1로 많이 한다.
 		
-		if(isIdEqualLoginedId(foundindex) == false) {
+		if(articleService.isIdEqualLoginedId(foundindex) == false) {
 			System.out.println("작성자가 아니면 접근할 수 없습니다.");
 			return;
 		};
@@ -196,7 +193,7 @@ public class ArticleController extends Controller {
 		System.out.printf("%d번 게시물을 수정했습니다.\n",id);
 		
 	}
-	
+
 	private void doDelete() {
 		
 		String[] cmdBits = cmd.split(" ");
@@ -208,7 +205,7 @@ public class ArticleController extends Controller {
 
 		int id = Integer.parseInt(cmdBits[2]);
 
-		int foundindex = getArticleIndexByid(id); // 배열안에서 음수인 인덱스가 없기때문에
+		int foundindex = articleService.getArticleIndexByid(id); // 배열안에서 음수인 인덱스가 없기때문에
 		 // 구별해줄때 -1로 많이 한다.
 		
 		if(isIdEqualLoginedId(foundindex) == false) {
@@ -221,32 +218,26 @@ public class ArticleController extends Controller {
 			return;
 		}
 		
-		articles.remove(foundindex);
+		articleService.remove(foundindex);
 		System.out.printf("%d번 게시물을 삭제했습니다.\n",id);
 		
 	}
 	
-	private int getArticleIndexByid(int id) {
-		
-		for (int i = 0; i < articles.size(); i++) {
-			Article article = articles.get(i);
-			
-			if (article.id == id) {
-				int foundindex = i;
-				return foundindex;
-			}
-		}
-		return -1;
-	}
 	
+	
+	private boolean isIdEqualLoginedId(int foundindex) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	public void makeTestData() {
 		System.out.println("테스트를 위한 게시물 데이터를 생성합니다.");
 		
 		String regDate = Myutill.getDate("yyyy-MM-dd HH:mm:ss"); 
 		
-		Container.articleDao.add(new Article(1, 1, "홍길동", "aa", "aa", regDate, 12));
-		Container.articleDao.add(new Article(2, 2, "임꺽정","bb", "bb", regDate, 34));
-		Container.articleDao.add(new Article(3, 3, "곽두팔","cc", "cc", regDate, 5));
+		articleService.add(new Article(articleService.setNewId(), 1, "홍길동", "aa", "aa", regDate, 12));
+		articleService.add(new Article(articleService.setNewId(), 2, "임꺽정","bb", "bb", regDate, 34));
+		articleService.add(new Article(articleService.setNewId(), 3, "곽두팔","cc", "cc", regDate, 5));
 		
 //		members.add(new Member(1, regDate, "test1", "aa", "test1"));
 //		members.add(new Member(2, regDate, "test2", "bb", "test2"));
