@@ -47,6 +47,10 @@ public class ArticleService {
 		
 		return articleDao.isIdEqualLoginedId(foundindex);
 	}
+
+	public Article getArticleByIndex(int foundindex) {
+		return articleDao.getArticleByIndex(foundindex);
+	}
 	
 	
 	

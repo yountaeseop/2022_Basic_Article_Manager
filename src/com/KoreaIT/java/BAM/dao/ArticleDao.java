@@ -61,6 +61,10 @@ public class ArticleDao extends Dao {
 		
 		return articles.get(foundindex).memberId == loginedMember.id;
 	}
+
+	public Article getArticleByIndex(int foundindex) {
+		return articles.get(foundindex);
+	}
 	
 }
 

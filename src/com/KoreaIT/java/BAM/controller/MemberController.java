@@ -7,6 +7,8 @@ import java.util.Scanner;
 import com.KoreaIT.java.BAM.container.Container;
 import com.KoreaIT.java.BAM.dto.Article;
 import com.KoreaIT.java.BAM.dto.Member;
+import com.KoreaIT.java.BAM.service.ArticleService;
+import com.KoreaIT.java.BAM.service.MemberService;
 import com.KoreaIT.java.BAM.utill.Myutill;
 
 public class MemberController extends Controller{
@@ -15,12 +17,12 @@ public class MemberController extends Controller{
 	private List<Member> members;
 	private String cmd;
 	private String actionMethodName;
-	
+	private MemberService memberService;
 	
 	public MemberController(Scanner sc) {
 		this.sc = sc;
 		
-		members = Container.memberDao.members;
+		memberService = Container.memberService;
 		//members = new ArrayList<>();
 		// 이렇게 했을때, article list를 하면 작성자가 null로 나온다
 		// 왜 이런걸까?
@@ -105,7 +107,7 @@ public class MemberController extends Controller{
 				break;
 			}
 			
-			member = getMemberByLoginId(loginId);
+			member = memberService.getMemberByLoginId(loginId);
 			
 			if(member == null) {
 				System.out.println("일치하는 회원이 없습니다.");
@@ -123,21 +125,11 @@ public class MemberController extends Controller{
 			System.out.printf("로그인 성공! %s님 환영합니다.\n", loginedMember.name);
 	}
 
-	private Member getMemberByLoginId(String loginId) {
-		
-		for(Member member : members) {
-			if(member.loginId.equals(loginId)) {
-				//System.out.printf("%d님 환영합니다!!!!!\n", member.name);
-				return member;
-			} 
-		}
-		
-		return null;
-	}
+	
 
 	private void doJoin() {
 		
-		int id = Container.memberDao.setNewId();
+		int id = memberService.setNewId();
 		// 아이디를 정하는 것이 컨트롤러의 역할이 아니기 때문에 Dao에서 가져오는 것임
 		
 		String regDate = Myutill.getDate("yyyy-MM-dd HH:mm:ss");
@@ -150,12 +142,11 @@ public class MemberController extends Controller{
 			System.out.printf("아이디 : ");
 			memberId = sc.nextLine();
 			
-			if(isJoinableLoginId(memberId) == false) {
+			if(memberService.isJoinableLoginId(memberId) == false) {
 				System.out.printf("%s은()는 이미 사용중인 아이디입니다\n", memberId);
 				continue;
-			} else {
+			} 
 				break;
-			}
 		}
 		
 		String memberPw = null;   // member인스턴스에서 받을 수 있도록 미리 지정해서
@@ -167,54 +158,30 @@ public class MemberController extends Controller{
 			System.out.printf("비밀번호 확인 : ");
 			memberPwCheck = sc.nextLine();
 			
-			if (memberPw.equals(memberPwCheck)) {
-				break;
-			} else {
+			if (memberPw.equals(memberPwCheck) == false) {
 				System.out.println("비밀번호가 다릅니다!!! 다시 입력해주세요.");
-			}
+				continue;
+			} 
+			break;
 		}
 		
-		
 		Member member = new Member(id, regDate, memberId, memberPw, memberName);
-		Container.memberDao.add(member);
+		memberService.add(member);
 
 		System.out.printf("%s님 환영합니다!!!\n", member.name);
 		
 	}
 
-	private boolean isJoinableLoginId(String memberId) {
-		
-		int index = getMemberIndexBymemberId(memberId);
-		
-		if(index == -1) {
-			return true;
-		}
-		
-	return false;
-}
-
-	private int getMemberIndexBymemberId(String memberId) {
-		
-		int i = 0;
-		
-		for(Member member : members) {
-			if(member.loginId.equals(memberId)) {
-				return i;
-			}
-			i++;
-		}
-		
-		return -1;
-	}
+	
 	
 	public void makeTestData() {
 		System.out.println("테스트를 위한 회원 데이터를 생성합니다.");
 		
 		String regDate = Myutill.getDate("yyyy-MM-dd HH:mm:ss"); 
 		
-		Container.memberDao.add(new Member(Container.memberDao.setNewId(), regDate, "test1", "aa", "홍길동"));
-		Container.memberDao.add(new Member(Container.memberDao.setNewId(), regDate, "test2", "bb", "김철수"));
-		Container.memberDao.add(new Member(Container.memberDao.setNewId(), regDate, "test3", "cc", "임꺽정"));
+		memberService.add(new Member(memberService.setNewId(), regDate, "test1", "aa", "홍길동"));
+		memberService.add(new Member(memberService.setNewId(), regDate, "test2", "bb", "김철수"));
+		memberService.add(new Member(memberService.setNewId(), regDate, "test3", "cc", "임꺽정"));
 		
 		//여기도 add기능이기 때문에 Dao로 넘겨서 처리해줘야한다!!!
 	}
