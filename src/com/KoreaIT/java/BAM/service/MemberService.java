@@ -38,9 +38,9 @@ public class MemberService {
 		return memberDao.getMembers();
 	}
 	
-	public String getMemberNameById(int id) {
+	public String getMemberNameById(int memberid) {
 		
-		return memberDao.getMemberNameById(id);
+		return memberDao.getMemberNameById(memberid);
 	}
 	
 }

@@ -58,9 +58,9 @@ public class MemberDao extends Dao {
 		return members;
 	}
 
-	public String getMemberNameById(int id) {
+	public String getMemberNameById(int memberid) {
 		for (Member member : members) {
-			if(id == member.id) {
+			if(memberid == member.id) {
 				return member.name;
 			}
 		}
