@@ -42,7 +42,7 @@ public class ArticleService {
 		articleDao.remove(foundindex);
 		
 	}
-
+	
 	public boolean isIdEqualLoginedId(int foundindex) {
 		
 		return articleDao.isIdEqualLoginedId(foundindex);
@@ -55,6 +55,18 @@ public class ArticleService {
 	public List<Article> getForPrintArticles() {
 		
 		return articleDao.getArticles(null);
+	}
+
+	
+	// 수정하기전에 원래 제목 내용가져오기 위한 함수
+	public String getArticleTitle(int foundindex) {
+		
+		return articleDao.getArticleTitle(foundindex);
+	}
+
+	public String getArticleBody(int foundindex) {
+		
+		return articleDao.getArticleBody(foundindex);
 	}
 	
 	

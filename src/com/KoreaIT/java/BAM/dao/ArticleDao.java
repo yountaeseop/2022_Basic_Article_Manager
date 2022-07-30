@@ -3,6 +3,7 @@ package com.KoreaIT.java.BAM.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.KoreaIT.java.BAM.controller.Controller;
 import com.KoreaIT.java.BAM.dto.Article;
 import com.KoreaIT.java.BAM.dto.Member;
 
@@ -59,11 +60,21 @@ public class ArticleDao extends Dao {
 	
     public boolean isIdEqualLoginedId(int foundindex) {
 		
-		return articles.get(foundindex).memberId == loginedMember.id;
+		return articles.get(foundindex).memberId == Controller.loginedMember.id;
 	}
 
 	public Article getArticleByIndex(int foundindex) {
 		return articles.get(foundindex);
+	}
+
+	public String getArticleTitle(int foundindex) {
+		
+		return articles.get(foundindex).title;
+	}
+
+	public String getArticleBody(int foundindex) {
+		
+		return articles.get(foundindex).body;
 	}
 	
 }

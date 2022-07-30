@@ -172,14 +172,16 @@ public class ArticleController extends Controller {
 		if (foundindex == -1) {
 			System.out.printf("%d번 게시물은 없습니다\n", id);
 			return;
-		} 
+		}
 		
-		System.out.printf("제목 %s를 무엇으로 변경하시겠습니까? : ", articles.get(foundindex).title);
+		
+		
+		System.out.printf("제목 %s를 무엇으로 변경하시겠습니까? : ", articleService.getArticleTitle(foundindex));
 		String title = sc.nextLine();
-		System.out.printf("내용 %s를 무엇으로 변경하시겠습니까? : ", articles.get(foundindex).body);
+		System.out.printf("내용 %s를 무엇으로 변경하시겠습니까? : ", articleService.getArticleBody(foundindex));
 		String body = sc.nextLine();
 		
-		Article article = articles.get(foundindex);
+		Article article = articleService.getArticleByIndex(foundindex);
 		
 		article.title = title;
 		article.body = body;
@@ -202,7 +204,7 @@ public class ArticleController extends Controller {
 		int foundindex = articleService.getArticleIndexByid(id); // 배열안에서 음수인 인덱스가 없기때문에
 		 // 구별해줄때 -1로 많이 한다.
 		
-		if(isIdEqualLoginedId(foundindex) == false) {
+		if(articleService.isIdEqualLoginedId(foundindex) == false) {
 			System.out.println("작성자가 아니면 접근할 수 없습니다.");
 			return;
 		};
@@ -217,13 +219,6 @@ public class ArticleController extends Controller {
 		
 	}
 	
-	
-	
-	private boolean isIdEqualLoginedId(int foundindex) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 	public void makeTestData() {
 		System.out.println("테스트를 위한 게시물 데이터를 생성합니다.");
 		
