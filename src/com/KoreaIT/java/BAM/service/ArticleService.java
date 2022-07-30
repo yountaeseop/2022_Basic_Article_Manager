@@ -51,6 +51,11 @@ public class ArticleService {
 	public Article getArticleByIndex(int foundindex) {
 		return articleDao.getArticleByIndex(foundindex);
 	}
+
+	public List<Article> getForPrintArticles() {
+		
+		return articleDao.getArticles(null);
+	}
 	
 	
 	

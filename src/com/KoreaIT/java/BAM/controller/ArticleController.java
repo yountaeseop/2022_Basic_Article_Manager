@@ -99,16 +99,7 @@ public class ArticleController extends Controller {
 		for (int i = forPrintArticles.size() - 1; i >= 0; i--) {
 			Article article = forPrintArticles.get(i);
 			
-			String writerName = null;
-			
-			List<Member> members = memberService.getMembers();
-			
-			for (Member member : members) {
-				if(article.memberId == member.id) {
-					writerName = member.name;
-					break;
-				}
-			}
+			String writerName = memberService.getMemberNameById(article.id);
 
 			System.out.printf("%7d | %6s   | %5s  |  %7s |%5d\n", article.id, writerName, article.title, article.regDate, article.hit);
 		}
